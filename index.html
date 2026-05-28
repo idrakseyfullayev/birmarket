@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azerra - Premium Ev və Məişət Texnikası</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,400&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #FCFBFA;
+            color: #2D2D2D;
+            font-family: 'Poppins', sans-serif;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 1rem;
+            color: #8C847E;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .search-container {
+            max-width: 500px;
+            margin: 0 auto 45px auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 25px;
+            font-size: 1rem;
+            border-radius: 30px;
+            border: 1px solid #E5E0DA;
+            background: #FFFFFF;
+            color: #2D2D2D;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-input::placeholder {
+            color: #A69F98;
+        }
+
+        .search-input:focus {
+            border-color: #D4AF37;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: #FFFFFF;
+            border: 1px solid #F2EFEA;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 380px;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(140, 132, 126, 0.12);
+            border-color: #E5E0DA;
+        }
+
+        .product-img-box {
+            width: 100%;
+            height: 200px;
+            background: #FAFAFA;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .product-img-box img {
+            width: 90%;
+            height: 90%;
+            object-fit: contain;
+            transition: transform 0.4s ease;
+        }
+
+        .product-card:hover .product-img-box img {
+            transform: scale(1.05);
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #A69F98;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #333333;
+            margin-bottom: 15px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            height: 44px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 12px 0;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            background: #1A1A1A;
+            color: #FFFFFF;
+            width: 100%;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .product-card:hover .status-badge {
+            background: #D4AF37;
+            color: #FFFFFF;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loading-text {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #8C847E;
+            padding: 50px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Azerra</h1>
+        <p>Birmarket-də Rəsmi Mağazamız</p>
+    </header>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Məhsul adı ilə axtarış..." oninput="liveSearch()">
+    </div>
+
+    <div class="products-grid" id="katalog">
+        <div class="loading-text">Məhsullar yüklənir...</div>
+    </div>
+
+    <script>
+        // BURANI DƏYİŞDİR: Google Sheets-dən aldığın CSV linkini bu dırnaqların içinə yapışdır
+        const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTh3aquTDV5zBLhxHhzvn14PcpvHJYgYdpytgS7Z7GhSfzXcULgQEUZiW1stCQz-oFg_eWnABfo8CuH/pub?output=csv";
+
+        // CSV mətni oxuyub təmizləyən köməkçi funksiya
+        function parseCSV(text) {
+            const lines = text.split(/\r?\n/);
+            const result = [];
+            
+            // Başlıq sətirini (name, category, link, image) keçib 2-ci sətirdən başlayırıq
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                
+                // Vergül və dırnaqları sığortalayan ayırıcı regex
+                const matches = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || line.split(',');
+                if (matches.length >= 4) {
+                    result.push({
+                        name: matches[0].replace(/^"|"$/g, '').trim(),
+                        category: matches[1].replace(/^"|"$/g, '').trim(),
+                        link: matches[2].replace(/^"|"$/g, '').trim(),
+                        image: matches[3].replace(/^"|"$/g, '').trim()
+                    });
+                }
+            }
+            return result;
+        }
+
+        // Cədvəldən məlumatı çəkən əsas funksiya
+        async function loadProductsFromSheet() {
+            const katalog = document.getElementById('katalog');
+            
+            try {
+                const response = await fetch(sheetCsvUrl);
+                if (!response.ok) throw new Error('Cədvələ qoşulmaq mümkün olmadı');
+                
+                const csvText = await response.text();
+                const products = parseCSV(csvText);
+                
+                katalog.innerHTML = ''; // Yüklənir yazısını silirik
+
+                if (products.length === 0) {
+                    katalog.innerHTML = '<div class="loading-text">Kataloq hazırda boşdur.</div>';
+                    return;
+                }
+
+                // Cədvəldəki hər sətir üçün kart yaradırıq
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.setAttribute('data-title', product.name.toLowerCase());
+
+                    card.innerHTML = `
+                        <div>
+                            <div class="product-img-box">
+                                <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/400x400?text=Azerra'">
+                            </div>
+                            <div class="product-category">${product.category}</div>
+                            <div class="product-title">${product.name}</div>
+                        </div>
+                        <div><span class="status-badge">Məhsula Bax</span></div>
+                    `;
+                    
+                    card.onclick = function() {
+                        window.open(product.link, '_blank');
+                    };
+                    
+                    katalog.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Xəta:", error);
+                katalog.innerHTML = '<div class="loading-text" style="color: red;">Məhsulları yükləyərkən xəta baş verdi. Linki yoxlayın.</div>';
+            }
+        }
+
+        function liveSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.product-card');
+
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title');
+                if (title.includes(query)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Səhifə açılan kimi cədvəldən məlumatları gətir
+        window.addEventListener('DOMContentLoaded', loadProductsFromSheet);
+    </script>
+
+</body>
+</html>
