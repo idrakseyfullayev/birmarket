@@ -194,27 +194,42 @@
     </div>
 
     <script>
-        // BURANI DƏYİŞDİR: Google Sheets-dən aldığın CSV linkini bu dırnaqların içinə yapışdır
+        // Google Sheets-dən aldığın CSV linki
         const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTh3aquTDV5zBLhxHhzvn14PcpvHJYgYdpytgS7Z7GhSfzXcULgQEUZiW1stCQz-oFg_eWnABfo8CuH/pub?output=csv";
 
-        // CSV mətni oxuyub təmizləyən köməkçi funksiya
+        // YENİLƏNMİŞ CSV PARSER (Mətndəki bütün dırnaq və vergül xətalarını mükəmməl şəkildə həll edir)
         function parseCSV(text) {
             const lines = text.split(/\r?\n/);
             const result = [];
             
-            // Başlıq sətirini (name, category, link, image) keçib 2-ci sətirdən başlayırıq
             for (let i = 1; i < lines.length; i++) {
                 const line = lines[i].trim();
                 if (!line) continue;
                 
-                // Vergül və dırnaqları sığortalayan ayırıcı regex
-                const matches = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || line.split(',');
-                if (matches.length >= 4) {
+                const row = [];
+                let insideQuote = false;
+                let entries = "";
+                
+                // Sətri xarakter-xarakter oxuyub dırnaq içindəki vergülləri qoruyuruq
+                for (let j = 0; j < line.length; j++) {
+                    let char = line[j];
+                    if (char === '"') {
+                        insideQuote = !insideQuote; // dırnaq işarəsinin daxilinə girdik/çıxdıq
+                    } else if (char === ',' && !insideQuote) {
+                        row.push(entries.trim());
+                        entries = "";
+                    } else {
+                        entries += char;
+                    }
+                }
+                row.push(entries.trim()); // Son sütunu da əlavə edirik
+                
+                if (row.length >= 4) {
                     result.push({
-                        name: matches[0].replace(/^"|"$/g, '').trim(),
-                        category: matches[1].replace(/^"|"$/g, '').trim(),
-                        link: matches[2].replace(/^"|"$/g, '').trim(),
-                        image: matches[3].replace(/^"|"$/g, '').trim()
+                        name: row[0].replace(/^"|"$/g, '').trim(),
+                        category: row[1].replace(/^"|"$/g, '').trim(),
+                        link: row[2].replace(/^"|"$/g, '').trim(),
+                        image: row[3].replace(/^"|"$/g, '').trim()
                     });
                 }
             }
@@ -283,7 +298,6 @@
             });
         }
 
-        // Səhifə açılan kimi cədvəldən məlumatları gətir
         window.addEventListener('DOMContentLoaded', loadProductsFromSheet);
     </script>
 
