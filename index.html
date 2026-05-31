@@ -72,12 +72,10 @@
             box-shadow: 0 4px 20px rgba(212, 175, 55, 0.15);
         }
 
-        /* ------------------------------------ */
-        /* KOMPÜTER ÜÇÜN ÖLÇÜLƏR (ƏSAS CSS)    */
-        /* ------------------------------------ */
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* Yan-yana 4 ədəd */
+            /* Kompüterdə yan-yana 4 ədəd düzülüş */
+            grid-template-columns: repeat(4, 1fr);
             gap: 25px;
             max-width: 1200px;
             margin: 0 auto;
@@ -95,7 +93,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            height: 290px; /* Kompüterdə normal hündürlük */
+            height: 290px; 
         }
 
         .product-card:hover {
@@ -106,7 +104,7 @@
 
         .product-img-box {
             width: 100%;
-            height: 110px; /* Kompüterdə şəkil ölçüsü */
+            height: 110px;
             background: #FAFAFA;
             border-radius: 16px;
             display: flex;
@@ -128,7 +126,7 @@
         }
 
         .product-category {
-            font-size: 0.6rem;
+            font-size: 0.60rem;
             text-transform: uppercase;
             color: #A69F98;
             letter-spacing: 1px;
@@ -189,12 +187,10 @@
             padding: 50px 0;
         }
 
-        /* ------------------------------------ */
-        /* TELEFON ÜÇÜN TAM FERQLİ ÖLÇÜLƏR     */
-        /* ------------------------------------ */
+        /* TELEFONLAR ÜÇÜN XÜSUSİ TƏNZİMLƏMƏ (Yan-yana 4 məhsul) */
         @media (max-width: 600px) {
             body {
-                padding: 20px 10px; /* Telefonun kənarlarındakı boşluq azaldı */
+                padding: 20px 10px; /* Ekran kənarlarındakı boşluq azaldıldı */
             }
             header h1 {
                 font-size: 2rem;
@@ -203,16 +199,16 @@
                 font-size: 0.8rem;
             }
             .products-grid {
-                grid-template-columns: repeat(4, 1fr); /* Telefonda da yan-yana 4 dənə sığışır */
-                gap: 8px; /* Kartların arası sıxlaşır */
+                grid-template-columns: repeat(4, 1fr); /* Telefonda da dəqiq 4 sütun */
+                gap: 8px; /* Kartlar bir-birinə sıxışsın deyə ara boşluğu azaldıldı */
             }
             .product-card {
-                padding: 6px; /* Daxili boşluq kiçilir */
+                padding: 6px; /* Daxili boşluqlar kiçildildi */
                 border-radius: 10px;
-                height: 185px; /* Kartın ümumi hündürlüyü telefona uyğunlaşır */
+                height: 185px; /* Kartların ekrana sığması üçün ümumi hündürlük */
             }
             .product-img-box {
-                height: 60px; /* Şəkillər kiçilir */
+                height: 60px; /* Şəkillər kiçildildi */
                 border-radius: 8px;
                 margin-bottom: 5px;
             }
@@ -222,11 +218,11 @@
                 margin-bottom: 2px;
             }
             .product-title {
-                font-size: 0.6rem; /* Yazı şrifti kiçilir */
+                font-size: 0.6rem; /* Yazılar oxunacaq səviyyədə kiçildildi */
                 line-height: 1.1;
                 margin-bottom: 2px;
                 display: -webkit-box;
-                -webkit-line-clamp: 2; /* Maksimum 2 sətir yazı */
+                -webkit-line-clamp: 2; /* Başlıq çox uzundursa maks 2 sətir görünsün */
                 -webkit-box-orient: vertical;
                 overflow: hidden;
             }
@@ -236,7 +232,7 @@
                 border-radius: 4px;
             }
             .status-badge {
-                padding: 5px 0;
+                padding: 5px 0; /* Düymə kiçildildi */
                 font-size: 0.55rem;
                 border-radius: 12px;
             }
