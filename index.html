@@ -135,31 +135,26 @@
 
         .product-title {
             font-size: 1.05rem;
-            font-weight: 500;
+            font-weight: 800;
             color: #333333;
-            margin-bottom: 15px;
             line-height: 1.4;
             display: block;
-            overflow: hidden;
-            height: 44px;
             text-align: center;
-            position: relative; /* ID nişanını sağa sıxışdırmaq üçün baza */
-            padding: 0 45px; /* Adın ID nişanının üzərinə minməməsi üçün sağdan və soldan boşluq */
+            margin-bottom: 5px;
         }
 
-        /* Tam sağ küncdə dayanan ID nişanı */
+        /* Kod nişanının mərkəzlənməsi və ölçüləri */
         .title-id-badge {
+            display: inline-block;
             font-size: 0.7rem;
-            color: #FFFFFF;
-            font-weight: 600;
-            background: #D4AF37;
+            color: #0c0101;
+            font-weight: 400;
+            /* background: #D4AF37; */
             padding: 2px 7px;
             border-radius: 8px;
-            position: absolute;
-            right: 0; /* Tam sağa yapışdırır */
-            top: 3px; /* Sətir xəttinə uyğun mərkəzləyir */
             line-height: 1.2;
             box-shadow: 0 1px 4px rgba(212, 175, 55, 0.15);
+            margin-top: 5px;
         }
 
         .status-badge {
@@ -275,7 +270,7 @@
                     
                     card.setAttribute('data-search', `${product.name.toLowerCase()} ${product.id.toLowerCase()}`);
 
-                    const idBadgeHtml = product.id ? `<span class="title-id-badge">id: ${product.id}</span>` : '';
+                    const idBadgeHtml = product.id ? `<div><span class="title-id-badge">Məhsul kodu: ${product.id}</span></div>` : '';
 
                     card.innerHTML = `
                         <div>
@@ -283,7 +278,8 @@
                                 <img src="${product.image}" alt="${product.name}" onerror="this.src='https://placehold.co/400x400?text=Azerra'">
                             </div>
                             <div class="product-category">${product.category}</div>
-                            <div class="product-title">${product.name}${idBadgeHtml}</div>
+                            <div class="product-title">${product.name}</div>
+                            ${idBadgeHtml}
                         </div>
                         <div><span class="status-badge">Məhsula Bax</span></div>
                     `;
