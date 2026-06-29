@@ -362,13 +362,33 @@
             gap: 15px;
         }
 
-        /* Premium Həll: WhatsApp düyməsi ana səhifə dizaynı ilə uyğunlaşdırıldı */
-        .btn-whatsapp {
+        /* Düymə iki sətirli və mərkəzləşdirilmiş mətn üçün yeniləndi */
+        /* .btn-whatsapp {
             flex: 1;
-            padding: 16px;
+            padding: 12px 16px;
             border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 600;
+            background: #1A1A1A;
+            color: #FFFFFF;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;  
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.4;
+        } */
+
+
+        .btn-whatsapp {
+            max-width: 280px; /* Qara sahənin uzunluğunu buradan tənzimləyə bilərsiniz */
+            width: 100%;
+            margin: 0 auto; /* Düyməni ortalamaq üçün */
+            padding: 10px 16px;
+            border-radius: 25px;
             background: #1A1A1A;
             color: #FFFFFF;
             border: none;
@@ -376,9 +396,25 @@
             transition: all 0.3s ease;
             text-align: center;
             font-family: 'Poppins', sans-serif;
-            letter-spacing: 0.5px;
             text-decoration: none;
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.4;
+        }
+
+        .btn-whatsapp .btn-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-whatsapp .btn-phone {
+            font-size: 1rem;
+            font-weight: 500;
+            opacity: 1;
+            margin-top: 2px;
         }
 
         .btn-whatsapp:hover {
@@ -405,19 +441,17 @@
         </div>
     </div>
 
-    <!-- PEŞƏKAR WHATSAPP SİSTEMLİ MƏHSUL SƏHİFƏSİ -->
+    <!-- MƏHSUL SƏHİFƏSİ -->
     <div id="productView" class="hidden">
         <div style="max-width: 1100px; margin: 0 auto;">
             <button class="back-btn" onclick="showCatalog()">← Kataloqa Qayıt</button>
         </div>
         
         <div class="single-product-layout">
-            <!-- Sol tərəf: Məhsul Şəkli -->
             <div class="single-img-area">
                 <img id="singleImg" src="" alt="">
             </div>
             
-            <!-- Sağ tərəf: İnformasiya Paneli -->
             <div class="single-info-area">
                 <div class="single-meta-cat" id="singleCategory"></div>
                 <h2 class="single-main-title" id="singleTitle"></h2>
@@ -432,8 +466,11 @@
                 </div>
 
                 <div class="action-buttons-wrapper">
-                    <!-- WhatsApp birbaşa əlaqə link düyməsi -->
-                    <a href="#" id="whatsappLinkBtn" target="_blank" class="btn-whatsapp">WhatsApp ilə Sifariş Et (+994 51 393 36 31)</a>
+                    <!-- Nömrə yazısı başlığın tam altına yerləşdirildi -->
+                    <a href="#" id="whatsappLinkBtn" target="_blank" class="btn-whatsapp">
+                        <span class="btn-title">WhatsApp ilə Sifariş Et</span>
+                        <span class="btn-phone">+994 51 393 36 31</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -554,7 +591,6 @@
                 codeBadge.classList.add('hidden');
             }
 
-            // Məhsula uyğun avtomatik WhatsApp mesajı formalaşdırılır
             const phoneNumber = "994513933631";
             let messageText = `Salam, bu məhsulu sifariş etmək istəyirəm:\nMəhsul: ${product.name}`;
             if(product.id) {
