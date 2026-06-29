@@ -88,7 +88,7 @@
 
         @media (max-width: 480px) {
             body {
-                padding: 20px 10px;
+                padding: 15px 8px;
             }
             .products-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -110,20 +110,34 @@
                 font-size: 0.8rem !important;
             }
             
+            /* Mobil üçün məsafələr sıxlaşdırıldı */
+            .back-btn {
+                margin-bottom: 10px !important; /* Düymə ilə şəkil arasındakı məsafə azaldı */
+                padding: 8px 18px !important;
+                font-size: 0.85rem !important;
+            }
             .single-product-layout {
                 grid-template-columns: 1fr !important;
-                gap: 20px !important;
-                padding: 20px !important;
+                gap: 15px !important;
+                padding: 15px !important;
             }
             .single-img-area {
-                height: 280px !important;
+                height: 240px !important; /* Şəkil hündürlüyü bir az kiçildildi ki ekrana yerləşsin */
             }
             .single-main-title {
-                font-size: 1.4rem !important;
+                font-size: 1.3rem !important;
+                margin-bottom: 8px !important;
+            }
+            .badge-row {
+                margin-bottom: 15px !important;
+                gap: 10px !important;
+            }
+            .single-commerce-box {
+                padding: 12px 0 !important;
+                margin-bottom: 15px !important;
             }
             .action-buttons-wrapper {
-                flex-direction: column;
-                gap: 10px !important;
+                margin-bottom: 12px !important;
             }
         }
 
@@ -246,7 +260,7 @@
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease;
-            margin-bottom: 25px;
+            margin-bottom: 25px; /* Masaüstündə standart məsafə */
             font-weight: 500;
         }
 
@@ -310,22 +324,20 @@
             margin-bottom: 12px;
         }
 
+        .badge-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
         .single-code-badge {
-            align-self: flex-start;
             font-size: 0.8rem;
             color: #8C847E;
             background: #FCFBFA;
             border: 1px solid #E5E0DA;
             padding: 4px 12px;
             border-radius: 8px;
-            margin-bottom: 25px;
-        }
-
-        .single-commerce-box {
-            border-top: 1px solid #F2EFEA;
-            border-bottom: 1px solid #F2EFEA;
-            padding: 20px 0;
-            margin-bottom: 25px;
         }
 
         .stock-status {
@@ -335,7 +347,6 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            margin-bottom: 10px;
         }
 
         .stock-status::before {
@@ -345,6 +356,13 @@
             height: 8px;
             background-color: #2e7d32;
             border-radius: 50%;
+        }
+
+        .single-commerce-box {
+            border-top: 1px solid #F2EFEA;
+            border-bottom: 1px solid #F2EFEA;
+            padding: 20px 0;
+            margin-bottom: 25px;
         }
 
         .delivery-info {
@@ -360,34 +378,14 @@
         .action-buttons-wrapper {
             display: flex;
             gap: 15px;
+            margin-bottom: 20px; /* Altdakı mətnlə məsafə üçün */
         }
 
-        /* Düymə iki sətirli və mərkəzləşdirilmiş mətn üçün yeniləndi */
-        /* .btn-whatsapp {
-            flex: 1;
-            padding: 12px 16px;
-            border-radius: 30px;
-            background: #1A1A1A;
-            color: #FFFFFF;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;  
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            line-height: 1.4;
-        } */
-
-
         .btn-whatsapp {
-            max-width: 280px; /* Qara sahənin uzunluğunu buradan tənzimləyə bilərsiniz */
+            max-width: 290px;
             width: 100%;
-            margin: 0 auto; /* Düyməni ortalamaq üçün */
-            padding: 10px 16px;
+            margin: 0;
+            padding: 12px 20px;
             border-radius: 25px;
             background: #1A1A1A;
             color: #FFFFFF;
@@ -398,10 +396,15 @@
             font-family: 'Poppins', sans-serif;
             text-decoration: none;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             line-height: 1.4;
+        }
+
+        .btn-text-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
         }
 
         .btn-whatsapp .btn-title {
@@ -413,13 +416,23 @@
         .btn-whatsapp .btn-phone {
             font-size: 1rem;
             font-weight: 500;
-            opacity: 1;
+            opacity: 0.85;
             margin-top: 2px;
+        }
+
+        .btn-arrow {
+            font-size: 2rem;
+            font-weight: 800;
+            transition: transform 0.9s ease;
         }
 
         .btn-whatsapp:hover {
             background: #D4AF37;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-whatsapp:hover .btn-arrow {
+            transform: translateX(5px);
         }
     </style>
 </head>
@@ -455,22 +468,29 @@
             <div class="single-info-area">
                 <div class="single-meta-cat" id="singleCategory"></div>
                 <h2 class="single-main-title" id="singleTitle"></h2>
-                <div class="single-code-badge" id="singleCode"></div>
                 
-                <div class="single-commerce-box">
+                <div class="badge-row">
+                    <div class="single-code-badge" id="singleCode"></div>
                     <div class="stock-status">Stokda var</div>
-                    <div class="delivery-info">
-                        Məhsulu sifariş etmək üçün aşağıdakı düyməyə klikləyərək <strong>WhatsApp</strong> vasitəsilə bizimlə əlaqə saxlayın.<br>
-                        • Canlı baxış • Sürətli çatdırılma • Rəsmi zəmanət
-                    </div>
                 </div>
 
+                <!-- Düymə mətnin yuxarısına yerləşdirildi -->
                 <div class="action-buttons-wrapper">
-                    <!-- Nömrə yazısı başlığın tam altına yerləşdirildi -->
                     <a href="#" id="whatsappLinkBtn" target="_blank" class="btn-whatsapp">
-                        <span class="btn-title">WhatsApp ilə Sifariş Et</span>
-                        <span class="btn-phone">+994 51 393 36 31</span>
+                        <div class="btn-text-container">
+                            <span class="btn-title">WhatsApp ilə Sifariş Et</span>
+                            <span class="btn-phone">+994 51 393 36 31</span>
+                        </div>
+                        <span class="btn-arrow">⬅</span>
                     </a>
+                </div>
+                
+                <!-- Sifariş mətni düymənin altına keçirildi -->
+                <div class="single-commerce-box">
+                    <div class="delivery-info">
+                        Məhsulu sifariş etmək üçün yuxarıdakı düyməyə klikləyərək <strong>WhatsApp</strong> vasitəsilə bizimlə əlaqə saxlayın.<br>
+                        • Canlı baxış • Sürətli çatdırılma • Rəsmi zəmanət
+                    </div>
                 </div>
             </div>
         </div>
@@ -586,9 +606,9 @@
             const codeBadge = document.getElementById('singleCode');
             if(product.id) {
                 codeBadge.innerText = `Məhsul kodu: ${product.id}`;
-                codeBadge.classList.remove('hidden');
+                codeBadge.style.display = 'inline-block';
             } else {
-                codeBadge.classList.add('hidden');
+                codeBadge.style.display = 'none';
             }
 
             const phoneNumber = "994513933631";
